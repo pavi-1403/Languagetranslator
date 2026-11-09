@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Translation Result</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .user-greeting {
+            text-align: right;
+            color: white;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .user-greeting a {
+            color: #93f9b9;
+            text-decoration: none;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+<div class="main-wrapper">
+    <header class="top-bar">
+        <div class="user-greeting">
+            Welcome, <a href="/dashboard">{{ user.username }}</a> | <a href="/logout" style="color: #ff6b6b;">Logout</a>
+        </div>
+        <h1> Multilingual Translator</h1>
+        <p>Translation Result</p>
+    </header>
+
+    <div class="card">
+        {% if error %}
+            <div class="error-box">{{ error }}</div>
+        {% else %}
+            <div class="result-grid">
+                <div class="result-box">
+                    <h3>Original Text ({{ input_type }})</h3>
+                    <textarea readonly>{{ original }}</textarea>
+                </div>
+                <div class="result-box">
+                    <h3>Translated Text ({{ language }})</h3>
+                    <textarea readonly>{{ translated }}</textarea>
+                </div>
+            </div>
+
+            <div class="audio-section">
+                {% if audio_file %}
+                    <audio controls>
+                        <source src="{{ url_for('download_user_file', username=user.username, filename=audio_file) }}" type="audio/mpeg">
+                    </audio>
+                    <br>
+                    <a href="{{ url_for('download_user_file', username=user.username, filename=audio_file) }}" class="download-btn" download>Download Audio</a>
+                {% endif %}
+                {% if text_file %}
+                    <br>
+                    <a href="{{ url_for('download_user_file', username=user.username, filename=text_file) }}" class="download-btn" download>Download Text</a>
+                {% endif %}
+            </div>
+        {% endif %}
+
+        <a href="{{ url_for('index') }}" class="back-btn">← Translate Another</a>
+        <a href="{{ url_for('dashboard') }}" class="back-btn" style="margin-left: 10px;">📊 View Dashboard</a>
+    </div>
+
+    <footer>
+        <p>Whisper AI • NLP • Flask • Expo-ready Project</p>
+    </footer>
+</div>
+</body>
+</html>

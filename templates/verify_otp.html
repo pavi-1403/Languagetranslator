@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Verify OTP - AI Multilingual Translator</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .auth-container {
+            max-width: 500px;
+            margin: 60px auto 0;
+        }
+        
+        .auth-card {
+            background: white;
+            border-radius: 14px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+        }
+        
+        .auth-card h2 {
+            text-align: center;
+            color: #1d976c;
+            margin-bottom: 20px;
+        }
+        
+        .auth-card p {
+            text-align: center;
+            color: #555;
+            margin-bottom: 30px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            display: block;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 18px;
+            text-align: center;
+            letter-spacing: 5px;
+            box-sizing: border-box;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #1d976c;
+            box-shadow: 0 0 5px rgba(29, 151, 108, 0.3);
+        }
+        
+        .error-box {
+            background: #ffe1e1;
+            padding: 12px;
+            border-radius: 8px;
+            color: #b30000;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(90deg, #1d976c, #93f9b9);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+        
+        .submit-btn:hover {
+            opacity: 0.9;
+        }
+        
+        .action-links {
+            text-align: center;
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+        }
+        
+        .action-links a {
+            color: #1d976c;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .action-links a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+<div class="main-wrapper">
+    <header class="top-bar">
+        <h1> Multilingual Translator</h1>
+        <p>Verify your email</p>
+    </header>
+
+    <div class="auth-container">
+        <div class="auth-card">
+            {% if error %}
+                <div class="error-box">{{ error }}</div>
+            {% endif %}
+            
+            {% if success %}
+                <div class="error-box" style="background: #e1ffe1; color: #008000;">{{ success }}</div>
+            {% endif %}
+
+            <h2>Verification Code</h2>
+            <p>We've sent a 6-digit code to your email.<br>Please enter it below.</p>
+
+            <form method="POST" action="/verify_otp">
+                <div class="form-group">
+                    <label for="otp">One-Time Password (OTP)</label>
+                    <input type="text" id="otp" name="otp" required placeholder="1 2 3 4 5 6" maxlength="6" autocomplete="off">
+                </div>
+
+                <button type="submit" class="submit-btn" id="verifyBtn">Verify & Create Account</button>
+            </form>
+            
+            <div class="action-links">
+                <a href="/resend_otp">Resend OTP</a>
+                <a href="/signup">Change Email</a>
+            </div>
+        </div>
+    </div>
+
+    <footer style="margin-top: 60px;">
+        <p>Whisper AI • NLP • Flask • Expo-ready Project</p>
+    </footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Translations - AI Multilingual Translator</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .dashboard-header h2 {
+            color: #1d976c;
+            margin: 0;
+        }
+
+        .user-info {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .logout-btn {
+            padding: 10px 20px;
+            background: linear-gradient(90deg, #d44336, #f44336);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .logout-btn:hover {
+            opacity: 0.9;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .translate-btn {
+            padding: 12px 25px;
+            background: linear-gradient(90deg, #1d976c, #93f9b9);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .translate-btn:hover {
+            opacity: 0.9;
+        }
+
+        .history-section h3 {
+            color: #333;
+            margin-top: 30px;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #1d976c;
+            padding-bottom: 10px;
+        }
+
+        .translation-item {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid #1d976c;
+        }
+
+        .translation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .translation-meta {
+            font-size: 13px;
+            color: #999;
+            margin-bottom: 10px;
+        }
+
+        .translation-badges {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 10px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            background: #1d976c;
+            color: white;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .translation-text {
+            margin: 10px 0;
+            background: white;
+            padding: 12px;
+            border-radius: 6px;
+            max-height: 100px;
+            overflow-y: auto;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .translation-text strong {
+            color: #1d976c;
+        }
+
+        .translation-downloads {
+            margin-top: 15px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .download-link {
+            padding: 0;
+            background: none;
+            color: inherit;
+            text-decoration: none;
+            border-radius: 0;
+            font-size: inherit;
+            font-weight: inherit;
+            display: none;
+        }
+
+        .download-link:hover {
+            opacity: 1;
+        }
+
+        .delete-btn {
+            padding: 0;
+            background: none;
+            color: inherit;
+            border: none;
+            border-radius: 0;
+            font-size: inherit;
+            font-weight: inherit;
+            cursor: pointer;
+            display: none;
+        }
+
+        .delete-btn:hover {
+            opacity: 1;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+        }
+
+        .empty-state p {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 800px) {
+            .dashboard-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .translation-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="main-wrapper">
+    <header class="top-bar">
+        <h1> Multilingual Translator</h1>
+        <p>Your Translation Dashboard</p>
+    </header>
+
+    <div class="card">
+        <div class="dashboard-header">
+            <div>
+                <h2>Welcome, {{ user.username }}! 👋</h2>
+                <div class="user-info">Email: {{ user.email }}</div>
+            </div>
+            <a href="/logout" class="logout-btn">Logout</a>
+        </div>
+
+        <div class="action-buttons">
+            <a href="/translate_page" class="translate-btn">📝 New Translation</a>
+            <a href="/" class="translate-btn">📚 Guest Mode</a>
+        </div>
+
+        <div class="history-section">
+            <h3>📋 Translation History</h3>
+
+            {% if translations %}
+                {% for trans in translations %}
+                    <div class="translation-item">
+                        <div class="translation-header">
+                            <div>
+                                <div class="translation-meta">
+                                    {{ trans.created_at }}
+                                </div>
+                                <div class="translation-badges">
+                                    <span class="badge">{{ trans.input_type }}</span>
+                                    <span class="badge">{{ trans.language_name }}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="translation-text">
+                            <strong>Original:</strong> {{ trans.original_text[:150] }}{% if trans.original_text|length > 150 %}...{% endif %}
+                        </div>
+
+                        <div class="translation-text">
+                            <strong>Translated:</strong> {{ trans.translated_text[:150] }}{% if trans.translated_text|length > 150 %}...{% endif %}
+                        </div>
+
+                        <div class="translation-downloads">
+                            {% if trans.text_file %}
+                                <a href="{{ url_for('download_user_file', username=user.username, filename=trans.text_file) }}" class="action-button download-text-btn" download>
+                                    <span>📄</span> Download Text
+                                </a>
+                            {% endif %}
+                            {% if trans.audio_file %}
+                                <a href="{{ url_for('download_user_file', username=user.username, filename=trans.audio_file) }}" class="action-button download-audio-btn" download>
+                                    <span>🔊</span> Download Audio
+                                </a>
+                            {% endif %}
+                            <form method="POST" action="/delete_translation" class="delete-form">
+                                <input type="hidden" name="translation_id" value="{{ trans.id }}">
+                                <button type="submit" class="action-button delete-btn-action" onclick="return confirm('Delete this translation?')">
+                                    <span>🗑️</span> Delete
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="empty-state">
+                    <p>No translations yet. Start by creating a new translation!</p>
+                    <a href="/translate_page" class="translate-btn">Create Your First Translation</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <footer>
+        <p>Whisper AI • NLP • Flask • Expo-ready Project</p>
+    </footer>
+</div>
+</body>
+</html>

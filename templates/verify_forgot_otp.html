@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Verify Code - AI Multilingual Translator</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        .auth-container {
+            max-width: 500px;
+            margin: 60px auto 0;
+        }
+        
+        .auth-card {
+            background: white;
+            border-radius: 14px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+        }
+        
+        .auth-card h2 {
+            text-align: center;
+            color: #1d976c;
+            margin-bottom: 10px;
+        }
+        
+        .auth-card p {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 8px;
+            display: block;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            font-size: 15px;
+            box-sizing: border-box;
+            text-align: center;
+            letter-spacing: 2px;
+            font-weight: 600;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #1d976c;
+            box-shadow: 0 0 5px rgba(29, 151, 108, 0.3);
+        }
+        
+        .error-box {
+            background: #ffe1e1;
+            padding: 12px;
+            border-radius: 8px;
+            color: #b30000;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        
+        .success-box {
+            background: #e1ffe1;
+            padding: 12px;
+            border-radius: 8px;
+            color: #006b00;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(90deg, #1d976c, #93f9b9);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+        
+        .submit-btn:hover {
+            opacity: 0.9;
+        }
+        
+        .auth-link {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+        }
+        
+        .auth-link a {
+            color: #1d976c;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .auth-link a:hover {
+            text-decoration: underline;
+        }
+        
+        .otp-info {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: #666;
+            border-left: 4px solid #1d976c;
+        }
+    </style>
+</head>
+<body>
+<div class="main-wrapper">
+    <header class="top-bar">
+        <h1> Multilingual Translator</h1>
+        <p>Verify your email address</p>
+    </header>
+
+    <div class="auth-container">
+        <div class="auth-card">
+            {% if error %}
+                <div class="error-box">{{ error }}</div>
+            {% endif %}
+
+            {% if success %}
+                <div class="success-box">{{ success }}</div>
+            {% endif %}
+
+            <h2>Verify Your Code</h2>
+            <p>We've sent a 6-digit code to <strong>{{ email }}</strong></p>
+
+            <div class="otp-info">
+                ✓ Enter the verification code from your email<br>
+                ✓ Code expires in 5 minutes<br>
+                ✓ Check your spam folder if needed
+            </div>
+
+            <form method="POST" action="/verify-forgot-otp">
+                <input type="hidden" name="email" value="{{ email }}">
+                
+                <div class="form-group">
+                    <label for="otp">6-Digit Code</label>
+                    <input type="text" 
+                           id="otp" 
+                           name="otp" 
+                           maxlength="6" 
+                           placeholder="000000" 
+                           required 
+                           pattern="[0-9]{6}"
+                           inputmode="numeric">
+                </div>
+
+                <button type="submit" class="submit-btn">Verify & Continue</button>
+            </form>
+
+            <div class="auth-link">
+                Didn't receive the code? 
+                <form method="POST" action="/resend-forgot-otp" style="display: inline;">
+                    <input type="hidden" name="email" value="{{ email }}">
+                    <button type="submit" style="background: none; border: none; color: #1d976c; cursor: pointer; font-weight: 600; text-decoration: underline;">
+                        Resend OTP
+                    </button>
+                </form>
+            </div>
+
+            <div class="auth-link" style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
+                <a href="/login">Back to Login</a>
+            </div>
+        </div>
+    </div>
+
+    <footer style="margin-top: 60px;">
+        <p>Whisper AI • NLP • Flask • Expo-ready Project</p>
+    </footer>
+</div>
+</body>
+</html>

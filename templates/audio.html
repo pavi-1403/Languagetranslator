@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PDF & Image to Audio Tools</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>🧠 Smart Audio Conversion Hub</h1>
+        <p>Select a tool to begin — translate text or extract spoken image captions!</p>
+    </header>
+
+    <main class="tool-grid">
+        <!-- Text or PDF Translation -->
+        <section class="tool-box">
+            <h2>🔈 Translate Text or PDF to Audio</h2>
+            <form action="/translate" method="post" enctype="multipart/form-data">
+                <label for="message">Enter text:</label>
+                <textarea name="message" placeholder="Type your message here..." rows="5"></textarea>
+
+                <label for="pdf">Or upload a PDF file:</label>
+                <input type="file" name="pdf" accept="application/pdf">
+
+                <label for="language">Select translation language:</label>
+                <select name="language">
+                    {% for code, lang in languages.items() %}
+                        <option value="{{ code }}">{{ lang }}</option>
+                    {% endfor %}
+                </select>
+
+                <button type="submit">Translate & Convert to Audio</button>
+            </form>
+        </section>
+
+        <!-- Image to Audio Conversion -->
+        <section class="tool-box">
+            <h2>🖼 Convert Images in PDF to Spoken Audio</h2>
+            <form action="/image-audio" method="post" enctype="multipart/form-data">
+                <label for="image-pdf">Upload a PDF with embedded images:</label>
+                <input type="file" name="pdf" accept="application/pdf">
+
+                <button type="submit">Convert Image Captions to Audio</button>
+            </form>
+        </section>
+    </main>
+</body>
+</html>

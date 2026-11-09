@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>AI Multilingual Translator</title>
+    <link rel="stylesheet" href="/static/style.css">
+
+    <style>
+        #loadingSpinner {
+            display: none;
+            text-align: center;
+            margin-top: 15px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .user-greeting {
+            text-align: right;
+            color: white;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+
+        .user-greeting a {
+            color: #93f9b9;
+            text-decoration: none;
+            font-weight: 600;
+        }
+    </style>
+
+    <script>
+        let fileSelected = false;
+
+        function switchMode(mode) {
+            if (fileSelected) {
+                if (!confirm("Switching modes will clear your selected file.")) {
+                    return;
+                }
+            }
+
+            document.getElementById("textInput").style.display = "none";
+            document.getElementById("pdfInput").style.display = "none";
+            document.getElementById("videoInput").style.display = "none";
+
+            // Clear all file inputs
+            document.querySelectorAll("input[type='file']").forEach(f => f.value = "");
+            document.getElementById("fileNameDisplay").innerText = "";
+            fileSelected = false;
+
+            document.getElementById(mode).style.display = "block";
+        }
+
+        function showFileName(input) {
+            if (input.files.length > 0) {
+                fileSelected = true;
+                document.getElementById("fileNameDisplay").innerText =
+                    "File selected: " + input.files[0].name;
+            }
+        }
+
+        function validateForm() {
+            const pdfVisible = document.getElementById("pdfInput").style.display === "block";
+            const videoVisible = document.getElementById("videoInput").style.display === "block";
+
+            if ((pdfVisible || videoVisible) && !fileSelected) {
+                alert("Please select a file before submitting.");
+                return false;
+            }
+
+            document.getElementById("loadingSpinner").style.display = "block";
+            return true;
+        }
+
+        window.onload = function() { switchMode('textInput'); }
+    </script>
+</head>
+
+<body>
+<div class="main-wrapper">
+    <header class="top-bar">
+        <div class="user-greeting">
+            Welcome, <a href="/dashboard">{{ user.username }}</a> | <a href="/logout" style="color: #ff6b6b;">Logout</a>
+        </div>
+        <h1>Multilingual Translator</h1>
+        <p>Translate text, PDFs, and downloaded videos seamlessly</p>
+    </header>
+
+    <div class="card">
+        <div class="mode-select">
+            <button type="button" onclick="switchMode('textInput')">📝 Text</button>
+            <button type="button" onclick="switchMode('pdfInput')">📄 PDF</button>
+            <button type="button" onclick="switchMode('videoInput')">🎥 Video</button>
+        </div>
+
+        <form action="/translate" method="POST" enctype="multipart/form-data" onsubmit="return validateForm()">
+
+            <div id="textInput" class="input-block">
+                <label>Enter Text</label>
+                <textarea name="message" rows="6" placeholder="Type text here..."></textarea>
+            </div>
+
+            <div id="pdfInput" class="input-block" style="display:none;">
+                <label>Upload PDF</label>
+                <input type="file" id="pdfFile" name="file" accept=".pdf" onchange="showFileName(this)">
+            </div>
+
+            <div id="videoInput" class="input-block" style="display:none;">
+                <label>Upload Video (MP4)</label>
+                <input type="file" id="videoFile" name="file" accept=".mp4" onchange="showFileName(this)">
+                <small style="color:#555;">Max 50MB, max 10 min video</small>
+            </div>
+
+            <div id="fileNameDisplay" style="margin-top:10px; color:#333; font-weight:bold;"></div>
+
+            <label>Target Language</label>
+            <select name="language" required>
+                {% for code, lang in languages.items() %}
+                    <option value="{{ code }}">{{ lang }}</option>
+                {% endfor %}
+            </select>
+
+            <button type="submit">Translate</button>
+
+            <div id="loadingSpinner">Processing… please wait</div>
+        </form>
+    </div>
+
+    <footer>
+        <p>Whisper AI • NLP • Flask • Expo-ready Project</p>
+    </footer>
+</div>
+</body>
+</html>
