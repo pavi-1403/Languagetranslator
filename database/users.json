@@ -1,0 +1,37 @@
+[
+    {
+        "id": 1,
+        "username": "Prem",
+        "email": "premkumar.29105@gmail.com",
+        "password_hash": "c48c03b3c55389816b272620924a2bf0ddf38e2863a49f6849f608dd68d47d03",
+        "created_at": "2026-01-28T16:42:49.344926"
+    },
+    {
+        "id": 2,
+        "username": "rakzan2k",
+        "email": "rakoon2811@gmail.com",
+        "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
+        "created_at": "2026-01-28T20:56:10.468270"
+    },
+    {
+        "id": 3,
+        "username": "swetha",
+        "email": "swethpriya0143@gmail.com",
+        "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
+        "created_at": "2026-01-29T09:58:45.278303"
+    },
+    {
+        "id": 4,
+        "username": "Rakzan",
+        "email": "rakzan2k@gmail.com",
+        "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
+        "created_at": "2026-03-11T09:20:59.500540"
+    },
+    {
+        "id": 5,
+        "username": "rakshana2811",
+        "email": "rakshanar109@gmail.com",
+        "password_hash": "8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92",
+        "created_at": "2026-10-07T19:09:05.530400"
+    }
+]
