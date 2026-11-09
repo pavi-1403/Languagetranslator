@@ -1,0 +1,12 @@
+Flask==2.3.3
+Werkzeug
+deep-translator==1.11.4
+gTTS==2.4.0
+openai-whisper
+torch
+torchaudio
+requests
+python-dotenv
+waitress
+PyPDF2==3.0.1
+# Note: ffmpeg must be installed on the system for video processing
