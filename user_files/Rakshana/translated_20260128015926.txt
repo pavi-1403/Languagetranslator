@@ -1,0 +1,5 @@
+Hola, bienvenido a nuestro proyecto.
+Esta aplicación traduce idiomas.
+Ayuda a las personas a comprender diferentes idiomas.
+Los estudiantes pueden usarlo para aprender.
+Gracias por utilizar nuestro traductor.

@@ -1,0 +1,1 @@
+Proje kodum çalışıyor ancak önce oturum açma ve kaydolma sayfasının görünmesini istiyorum. Kullanıcı ancak oturum açma veya kaydolma işlemini tamamladıktan sonra çeviri dizini sayfasına ve oradan da çeviri yaptıktan sonra sonuç sayfasına yönlendirilmelidir."
